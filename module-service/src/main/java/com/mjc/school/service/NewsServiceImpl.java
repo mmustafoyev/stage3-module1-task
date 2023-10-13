@@ -33,11 +33,11 @@ public class NewsServiceImpl implements NewsService{
         newsDTO.setContent(content);
         newsDTO.setAuthorId(Long.valueOf(authorId));
         newsDTO.setCreateDate(LocalDateTime.now());
-        Author author = (Author) dataSource1.getById(Long.parseLong(authorId));
+        Author author = (Author) dataSource1.readById(Long.parseLong(authorId));
         newsDTO.setAuthorName(author.getName());
         validator.validator(newsDTO);
         try {
-            dataSource2.save(newsDTO);
+            dataSource2.create(newsDTO);
         } catch (DoubleAdding e) {
             throw new RuntimeException(e);
         }
@@ -46,14 +46,14 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     public List<NewsDTO> getAllNews() {
-        return dataSource2.getAll();
+        return dataSource2.readAll();
     }
 
     @Override
     public NewsDTO getNewsById(String id){
         Long idl = Long.valueOf(id);
         try {
-            return (NewsDTO) dataSource2.getById(idl);
+            return (NewsDTO) dataSource2.readById(idl);
         } catch (NotExistThisId e) {
             throw new RuntimeException(e);
         }
@@ -68,7 +68,7 @@ public class NewsServiceImpl implements NewsService{
         newsDTO.setId(Long.parseLong(id));
         newsDTO.setCreateDate(getAllNews().get(Integer.parseInt(id)).getCreateDate());
         newsDTO.setLastUpdateDate(LocalDateTime.now());
-        Author author = (Author) dataSource1.getById(Long.parseLong(authorId));
+        Author author = (Author) dataSource1.readById(Long.parseLong(authorId));
         newsDTO.setAuthorName(author.getName());
         dataSource2.update(newsDTO);
         return newsDTO;
@@ -82,6 +82,6 @@ public class NewsServiceImpl implements NewsService{
 
     @Override
     public List getAllAuthors() {
-        return dataSource1.getAll();
+        return dataSource1.readAll();
     }
 }

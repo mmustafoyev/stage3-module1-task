@@ -11,22 +11,31 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class NewsRepository implements DataSource<NewsModel> {
+    private  DataSource dataSource;
     private NewsReader reader = new NewsReader();
+
+    public NewsRepository(DataSource dataSource) {
+        this.dataSource = new NewsRepository();
+    }
+
+    public NewsRepository() {
+    }
+
     @Override
-    public NewsModel save(NewsModel data) throws DoubleAdding {
-        if(getAll().contains(data)){
+    public NewsModel create(NewsModel data) throws DoubleAdding {
+        if(readAll().contains(data)){
             throw new DoubleAdding("there is news model");
         }
-        data.setId((long) getAll().size());
-        getAll().add(data);
+        data.setId((long) readAll().size());
+        readAll().add(data);
         return data;
     }
 
     @Override
-    public NewsModel getById(Long id) throws NotExistThisId {
-        if(getAll().stream().anyMatch(news -> news.getId() != id))
+    public NewsModel readById(Long id) throws NotExistThisId {
+        if(readAll().stream().anyMatch(news -> news.getId() != id))
             throw new NotExistThisId("not found id in news");
-        return getAll().
+        return readAll().
                 stream().
                 filter(news -> news.getId() == id).
                 findFirst().
@@ -34,17 +43,17 @@ public class NewsRepository implements DataSource<NewsModel> {
     }
 
     @Override
-    public List<NewsModel> getAll() {
+    public List<NewsModel> readAll() {
         return reader.getNews();
     }
 
     @Override
     public NewsModel update(NewsModel data) throws NotExistThisId, NotNewDataToUpdate {
-        if(getAll().contains(data)) {
+        if(readAll().contains(data)) {
             throw new NotNewDataToUpdate("This news not new to update");
         }
         int id = Math.toIntExact(data.getId());
-        NewsModel newsModel = getAll().get(id);
+        NewsModel newsModel = readAll().get(id);
         newsModel.setContent(data.getContent());
         newsModel.setTitle(data.getTitle());
         newsModel.setLastUpdatedDate(LocalDateTime.now());
@@ -53,11 +62,11 @@ public class NewsRepository implements DataSource<NewsModel> {
     }
 
     @Override
-    public NewsModel delete(Long id) throws NotExistThisId {
-        if(getAll().stream().anyMatch(news -> news.getId() != id))
+    public boolean delete(Long id) throws NotExistThisId {
+        if(readAll().stream().anyMatch(news -> news.getId() != id))
             throw new NotExistThisId("not found id in news");
         int id_ = Math.toIntExact(id);
-        return getAll().remove(id_);
+        return readAll().remove(readById(id));
     }
 
 

@@ -9,10 +9,10 @@ import com.mjc.school.exception.NotNewDataToUpdate;
 import java.util.List;
 
 public interface DataSource<T> {
-    T save(T data) throws DoubleAdding;
-    T getById(Long id) throws NotExistThisId;
-    List<T> getAll();
+    T create(T data) throws DoubleAdding;
+    T readById(Long id) throws NotExistThisId;
+    List<T> readAll();
     T update(T data) throws NotExistThisId, NotNewDataToUpdate;
-    T delete(Long id) throws NotExistThisId;
+    boolean delete(Long id) throws NotExistThisId;
 
 }

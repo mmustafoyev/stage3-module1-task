@@ -12,20 +12,20 @@ public class AuthorImpl implements DataSource<Author> {
     private final AuthorReader getAuthor = new AuthorReader();
 
     @Override
-    public Author save(Author data) throws DoubleAdding {
-        if(getAll().contains(data)){
+    public Author create(Author data) throws DoubleAdding {
+        if(readAll().contains(data)){
             throw new DoubleAdding("This author has");
         }
-        data.setId(getAll().size());
-        getAll().add(data);
+        data.setId(readAll().size());
+        readAll().add(data);
         return data;
     }
 
     @Override
-    public Author getById(Long id) throws NotExistThisId {
-        if(getAll().stream().anyMatch(author -> author.getId() != id))
+    public Author readById(Long id) throws NotExistThisId {
+        if(readAll().stream().anyMatch(author -> author.getId() != id))
             throw new NotExistThisId("not found id in author");
-        return getAll().
+        return readAll().
                 stream().
                 filter(author -> author.getId() == id).
                 findFirst().
@@ -34,7 +34,7 @@ public class AuthorImpl implements DataSource<Author> {
 
 
     @Override
-    public List<Author> getAll() {
+    public List<Author> readAll() {
         return getAuthor.getAuthors();
     }
 
@@ -54,11 +54,11 @@ public class AuthorImpl implements DataSource<Author> {
 
 
     @Override
-    public Author delete(Long id) throws NotExistThisId {
+    public boolean delete(Long id) throws NotExistThisId {
         if(getAuthor.getAuthors().stream().anyMatch(author -> author.getId() == id))
             throw new NotExistThisId("This id is not found");
         List<Author> authors = getAuthor.getAuthors();
         int idI = Math.toIntExact(id);
-        return authors.remove(idI);
+        return authors.remove(authors.get(idI));
     }
 }
