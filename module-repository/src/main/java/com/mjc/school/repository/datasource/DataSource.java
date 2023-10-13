@@ -12,7 +12,7 @@ public interface DataSource<T> {
     T save(T data) throws DoubleAdding;
     T getById(Long id) throws NotExistThisId;
     List<T> getAll();
-    void update(T data) throws NotExistThisId, NotNewDataToUpdate;
-    void delete(Long id) throws NotExistThisId;
+    T update(T data) throws NotExistThisId, NotNewDataToUpdate;
+    T delete(Long id) throws NotExistThisId;
 
 }

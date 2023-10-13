@@ -1,4 +1,4 @@
-package com.mjc.school.repository.datasource.imp;
+package com.mjc.school.repository.datasource.impl;
 
 import com.mjc.school.exception.DoubleAdding;
 import com.mjc.school.exception.NotExistThisId;
@@ -6,7 +6,6 @@ import com.mjc.school.repository.datasource.DataSource;
 import com.mjc.school.repository.model.Author;
 import com.mjc.school.repository.reader.AuthorReader;
 
-import java.io.IOException;
 import java.util.List;
 
 public class AuthorImpl implements DataSource<Author> {
@@ -40,24 +39,26 @@ public class AuthorImpl implements DataSource<Author> {
     }
 
     @Override
-    public void update(Author data) throws NotExistThisId {
+    public Author update(Author data) throws NotExistThisId {
         if(getAuthor.getAuthors().stream().anyMatch(author -> author.getId() == data.getId()))
             throw new NotExistThisId("This id is not found");
-        getAuthor.getAuthors().
-                stream().
+        getAuthor.getAuthors().stream().
                 filter(author -> author.getId() == data.getId()).
                 forEach(author -> {
                     author.setName(data.getName());
                 });
+        Author auth =  getAuthor.getAuthors().get((int)data.getId());
+        return auth;
     }
 
 
 
     @Override
-    public void delete(Long id) throws NotExistThisId {
+    public Author delete(Long id) throws NotExistThisId {
         if(getAuthor.getAuthors().stream().anyMatch(author -> author.getId() == id))
             throw new NotExistThisId("This id is not found");
+        List<Author> authors = getAuthor.getAuthors();
         int idI = Math.toIntExact(id);
-        getAuthor.getAuthors().remove(idI);
+        return authors.remove(idI);
     }
 }

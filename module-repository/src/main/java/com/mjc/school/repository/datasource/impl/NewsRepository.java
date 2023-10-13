@@ -1,4 +1,4 @@
-package com.mjc.school.repository.datasource.imp;
+package com.mjc.school.repository.datasource.impl;
 
 import com.mjc.school.exception.DoubleAdding;
 import com.mjc.school.exception.NotExistThisId;
@@ -10,7 +10,7 @@ import com.mjc.school.repository.reader.NewsReader;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class NewsImpl implements DataSource<NewsModel> {
+public class NewsRepository implements DataSource<NewsModel> {
     private NewsReader reader = new NewsReader();
     @Override
     public NewsModel save(NewsModel data) throws DoubleAdding {
@@ -39,21 +39,25 @@ public class NewsImpl implements DataSource<NewsModel> {
     }
 
     @Override
-    public void update(NewsModel data) throws NotExistThisId, NotNewDataToUpdate {
-        if(getAll().contains(data))
+    public NewsModel update(NewsModel data) throws NotExistThisId, NotNewDataToUpdate {
+        if(getAll().contains(data)) {
             throw new NotNewDataToUpdate("This news not new to update");
+        }
         int id = Math.toIntExact(data.getId());
-        getAll().get(id).setContent(data.getContent());
-        getAll().get(id).setTitle(data.getTitle());
-        getAll().get(id).setLastUpdatedDate(LocalDateTime.now());
-        getAll().get(id).setAuthorId(data.getAuthorId());
+        NewsModel newsModel = getAll().get(id);
+        newsModel.setContent(data.getContent());
+        newsModel.setTitle(data.getTitle());
+        newsModel.setLastUpdatedDate(LocalDateTime.now());
+        newsModel.setAuthorId(data.getAuthorId());
+        return newsModel;
     }
 
     @Override
-    public void delete(Long id) throws NotExistThisId {
+    public NewsModel delete(Long id) throws NotExistThisId {
         if(getAll().stream().anyMatch(news -> news.getId() != id))
             throw new NotExistThisId("not found id in news");
-        getAll().remove(id);
+        int id_ = Math.toIntExact(id);
+        return getAll().remove(id_);
     }
 
 

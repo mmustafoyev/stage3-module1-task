@@ -8,6 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AuthorReader {
+    private static AuthorReader INSTANCE;
+
+    public static AuthorReader getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new AuthorReader();
+        }
+        return INSTANCE;
+    }
     private List<Author> listOfAuthors = new ArrayList<>();
 
     public List<Author> getAuthors() {

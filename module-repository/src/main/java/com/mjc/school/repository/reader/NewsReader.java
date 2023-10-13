@@ -13,6 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 public class NewsReader {
     private final List<NewsModel> data = new ArrayList<>();
+    private static NewsReader INSTANCE;
+
+    public static NewsReader getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new NewsReader();
+        }
+        return INSTANCE;
+    }
 
     public List<NewsModel> getNews() {
         return data;
