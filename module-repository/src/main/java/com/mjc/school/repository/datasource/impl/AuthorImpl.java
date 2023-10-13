@@ -12,7 +12,7 @@ public class AuthorImpl implements DataSource<Author> {
     private final AuthorReader getAuthor = new AuthorReader();
 
     @Override
-    public Author create(Author data) throws DoubleAdding {
+    public Object create(Author data) throws DoubleAdding {
         if(readAll().contains(data)){
             throw new DoubleAdding("This author has");
         }
@@ -22,7 +22,7 @@ public class AuthorImpl implements DataSource<Author> {
     }
 
     @Override
-    public Author readById(Long id) throws NotExistThisId {
+    public Object readById(Long id) throws NotExistThisId {
         if(readAll().stream().anyMatch(author -> author.getId() != id))
             throw new NotExistThisId("not found id in author");
         return readAll().
@@ -39,7 +39,7 @@ public class AuthorImpl implements DataSource<Author> {
     }
 
     @Override
-    public Author update(Author data) throws NotExistThisId {
+    public Object update(Author data) throws NotExistThisId {
         if(getAuthor.getAuthors().stream().anyMatch(author -> author.getId() == data.getId()))
             throw new NotExistThisId("This id is not found");
         getAuthor.getAuthors().stream().
@@ -54,7 +54,7 @@ public class AuthorImpl implements DataSource<Author> {
 
 
     @Override
-    public boolean delete(Long id) throws NotExistThisId {
+    public Boolean delete(Long id) throws NotExistThisId {
         if(getAuthor.getAuthors().stream().anyMatch(author -> author.getId() == id))
             throw new NotExistThisId("This id is not found");
         List<Author> authors = getAuthor.getAuthors();

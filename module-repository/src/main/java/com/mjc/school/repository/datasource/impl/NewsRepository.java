@@ -11,18 +11,18 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class NewsRepository implements DataSource<NewsModel> {
-    private  DataSource dataSource;
+    private final DataSource dataSource;
     private NewsReader reader = new NewsReader();
+    private DataSource data = new NewsRepository();
 
-    public NewsRepository(DataSource dataSource) {
-        this.dataSource = new NewsRepository();
-    }
 
     public NewsRepository() {
+        this.dataSource = data;
     }
 
+
     @Override
-    public NewsModel create(NewsModel data) throws DoubleAdding {
+    public Object create(NewsModel data) throws DoubleAdding {
         if(readAll().contains(data)){
             throw new DoubleAdding("there is news model");
         }
@@ -32,7 +32,7 @@ public class NewsRepository implements DataSource<NewsModel> {
     }
 
     @Override
-    public NewsModel readById(Long id) throws NotExistThisId {
+    public Object readById(Long id) throws NotExistThisId {
         if(readAll().stream().anyMatch(news -> news.getId() != id))
             throw new NotExistThisId("not found id in news");
         return readAll().
@@ -48,7 +48,7 @@ public class NewsRepository implements DataSource<NewsModel> {
     }
 
     @Override
-    public NewsModel update(NewsModel data) throws NotExistThisId, NotNewDataToUpdate {
+    public Object update(NewsModel data) throws NotExistThisId, NotNewDataToUpdate {
         if(readAll().contains(data)) {
             throw new NotNewDataToUpdate("This news not new to update");
         }
@@ -62,7 +62,7 @@ public class NewsRepository implements DataSource<NewsModel> {
     }
 
     @Override
-    public boolean delete(Long id) throws NotExistThisId {
+    public Boolean delete(Long id) throws NotExistThisId {
         if(readAll().stream().anyMatch(news -> news.getId() != id))
             throw new NotExistThisId("not found id in news");
         int id_ = Math.toIntExact(id);
