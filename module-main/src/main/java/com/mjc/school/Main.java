@@ -2,7 +2,7 @@ package com.mjc.school;
 
 
 import com.mjc.school.controller.NewsController;
-import com.mjc.school.controller.NewsControllerImpl;
+import com.mjc.school.controller.impl.NewsControllerImpl;
 import com.mjc.school.dto.NewsDTO;
 import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.exception.NotNewDataToUpdate;
