@@ -1,12 +1,11 @@
 package com.mjc.school.dto;
 
 import lombok.Data;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Data
-public class NewsDTO {
+public class NewsDto {
     private long id;
     private String title;
     private String content;
@@ -15,10 +14,10 @@ public class NewsDTO {
     private Long authorId;
     private String authorName;
 
-    public NewsDTO() {
+    public NewsDto() {
     }
 
-    public NewsDTO( String title, String content, Long authorId) {
+    public NewsDto(String title, String content, Long authorId) {
         this.title = title;
         this.content = content;
         this.authorId = authorId;

@@ -9,12 +9,12 @@ public interface NewsService <T> {
 
     T createNews(String title, String content, String authorId) throws NotExistThisId;
 
-    List<T> getAllNews();
+    List<T> readAllNews();
 
-    T getNewsById(String id);
+    T readByIdNews(String id);
 
     T updateNews(String id, String title, String content, String authorId) throws NotExistThisId, NotNewDataToUpdate;
-    Boolean deleteNews(String Id) throws NotExistThisId;
+    Long deleteNews(String Id) throws NotExistThisId;
 
     List<String> getAllAuthors();
 }

@@ -1,6 +1,5 @@
 package com.mjc.school.controller;
 
-import com.mjc.school.dto.NewsDTO;
 import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.exception.NotNewDataToUpdate;
 

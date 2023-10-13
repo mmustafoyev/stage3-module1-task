@@ -1,6 +1,6 @@
 package com.mjc.school.service.impl;
 
-import com.mjc.school.dto.NewsDTO;
+import com.mjc.school.dto.NewsDto;
 import com.mjc.school.exception.DoubleAdding;
 import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.exception.NotNewDataToUpdate;
@@ -20,17 +20,17 @@ public class NewsServiceImpl implements NewsService {
     private final DataSource dataSource1 = new AuthorImpl();
 
     private  DataSource dataSource2 = new NewsImpl();
+    Validator validator = new Validator();
 
 
-//    // Example method for mapping NewsModel to NewsDTO
-//    public NewsDTO mapNewsToDTO(NewsModel newsModel, AuthorModel author) {
+//    // Example method for mapping NewsModel to NewsDto
+//    public NewsDto mapNewsToDTO(NewsModel newsModel, AuthorModel author) {
 //        return newsMapper.newsToNewsDTO(newsModel, author);
 //    }
 
     @Override
-    public NewsDTO createNews(String title, String content, String authorId) throws NotExistThisId {
-        Validator validator = new Validator();
-        NewsDTO newsDTO = new NewsDTO();
+    public NewsDto createNews(String title, String content, String authorId) throws NotExistThisId {
+        NewsDto newsDTO = new NewsDto();
         newsDTO.setTitle(title);
         newsDTO.setContent(content);
         newsDTO.setAuthorId(Long.valueOf(authorId));
@@ -47,15 +47,15 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public List<NewsDTO> getAllNews() {
+    public List<NewsDto> readAllNews() {
         return dataSource2.readAll();
     }
 
     @Override
-    public NewsDTO getNewsById(String id){
+    public NewsDto readByIdNews(String id){
         Long idl = Long.valueOf(id);
         try {
-            return (NewsDTO) dataSource2.readById(idl);
+            return (NewsDto) dataSource2.readById(idl);
         } catch (NotExistThisId e) {
             throw new RuntimeException(e);
         }
@@ -63,23 +63,23 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public Object updateNews(String id, String title, String content, String authorId) throws NotExistThisId, NotNewDataToUpdate {
-        NewsDTO newsDTO = new NewsDTO();
-        newsDTO.setTitle(title);
-        newsDTO.setContent(content);
-        newsDTO.setAuthorId(Long.valueOf(authorId));
-        newsDTO.setId(Long.parseLong(id));
-        newsDTO.setCreateDate(getAllNews().get(Integer.parseInt(id)).getCreateDate());
-        newsDTO.setLastUpdateDate(LocalDateTime.now());
+        NewsDto newsDto = new NewsDto();
+        newsDto.setTitle(title);
+        newsDto.setContent(content);
+        newsDto.setAuthorId(Long.valueOf(authorId));
+        newsDto.setId(Long.parseLong(id));
+        newsDto.setCreateDate(readAllNews().get(Integer.parseInt(id)).getCreateDate());
+        newsDto.setLastUpdateDate(LocalDateTime.now());
         AuthorModel author = (AuthorModel) dataSource1.readById(Long.parseLong(authorId));
-        newsDTO.setAuthorName(author.getName());
-        dataSource2.update(newsDTO);
-        return newsDTO;
+        newsDto.setAuthorName(author.getName());
+        dataSource2.update(newsDto);
+        return newsDto;
     }
 
     @Override
-    public Boolean deleteNews(String id) throws NotExistThisId {
+    public Long deleteNews(String id) throws NotExistThisId {
         dataSource2.delete(Long.parseLong(id));
-        return true;
+        return Long.parseLong(id);
     }
 
     @Override

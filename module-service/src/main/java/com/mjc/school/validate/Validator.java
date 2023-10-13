@@ -1,10 +1,10 @@
 package com.mjc.school.validate;
 
-import com.mjc.school.dto.NewsDTO;
+import com.mjc.school.dto.NewsDto;
 import com.mjc.school.exception.InvalidNewsDataException;
 
 public class Validator{
-    public boolean validator(NewsDTO newsDTO) {
+    public boolean validator(NewsDto newsDTO) {
         try{
 
             // Validate title length

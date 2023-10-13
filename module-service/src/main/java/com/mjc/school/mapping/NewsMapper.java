@@ -1,6 +1,6 @@
 //package com.mjc.school.mapping;
 //
-//import com.mjc.school.dto.NewsDTO;
+//import com.mjc.school.dto.NewsDto;
 //import com.mjc.school.repository.model.AuthorModel;
 //import org.mapstruct.Mapper;
 //import com.mjc.school.repository.model.NewsModel;
@@ -17,6 +17,6 @@
 //    @Mapping(source = "lastUpdatedDate", target = "lastUpdateDate")
 //    @Mapping(source = "authorId", target = "authorId")
 //    @Mapping(source = "name", target = "authorName")
-//    NewsDTO newsToNewsDTO(NewsModel news, AuthorModel author);
+//    NewsDto newsToNewsDTO(NewsModel news, AuthorModel author);
 //
 //}
