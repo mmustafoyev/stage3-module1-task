@@ -31,21 +31,21 @@ public class NewsServiceImpl implements NewsService {
 //    }
 
     @Override
-    public Long createNews(String title, String content, String authorId) throws NotExistThisId {
-        NewsDto newsDTO = new NewsDto();
-        newsDTO.setTitle(title);
-        newsDTO.setContent(content);
-        newsDTO.setAuthorId(Long.valueOf(authorId));
-        newsDTO.setCreateDate(LocalDateTime.now());
+    public NewsDto createNews(String title, String content, String authorId) throws NotExistThisId {
+        NewsDto newsDto = new NewsDto();
+        newsDto.setTitle(title);
+        newsDto.setContent(content);
+        newsDto.setAuthorId(Long.valueOf(authorId));
+        newsDto.setCreateDate(LocalDateTime.now());
         AuthorModel author = (AuthorModel) dataSource1.readById(Long.parseLong(authorId));
-        newsDTO.setAuthorName(author.getName());
-        validator.validator(newsDTO);
+        newsDto.setAuthorName(author.getName());
+        validator.validator(newsDto);
         try {
-            dataSource2.create(newsDTO);
+            dataSource2.create(newsDto);
         } catch (DoubleAdding e) {
             throw new RuntimeException(e);
         }
-        return newsDTO.getId();
+        return newsDto;
     }
 
     @Override
