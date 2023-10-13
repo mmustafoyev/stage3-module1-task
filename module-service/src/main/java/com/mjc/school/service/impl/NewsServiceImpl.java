@@ -52,17 +52,18 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public NewsDto readByIdNews(String id){
+    public Long readByIdNews(String id){
         Long idl = Long.valueOf(id);
         try {
-            return (NewsDto) dataSource2.readById(idl);
+            dataSource2.readById(idl);
+            return idl;
         } catch (NotExistThisId e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public Object updateNews(String id, String title, String content, String authorId) throws NotExistThisId, NotNewDataToUpdate {
+    public NewsDto updateNews(String id, String title, String content, String authorId) throws NotExistThisId, NotNewDataToUpdate {
         NewsDto newsDto = new NewsDto();
         newsDto.setTitle(title);
         newsDto.setContent(content);
@@ -77,9 +78,8 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public Long deleteNews(String id) throws NotExistThisId {
-        dataSource2.delete(Long.parseLong(id));
-        return Long.parseLong(id);
+    public Boolean deleteNews(String id) throws NotExistThisId {
+        return dataSource2.delete(Long.parseLong(id));
     }
 
     @Override

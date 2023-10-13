@@ -14,7 +14,7 @@ public interface NewsService <T> {
     T readByIdNews(String id);
 
     T updateNews(String id, String title, String content, String authorId) throws NotExistThisId, NotNewDataToUpdate;
-    Long deleteNews(String Id) throws NotExistThisId;
+    Boolean deleteNews(String Id) throws NotExistThisId;
 
     List<String> getAllAuthors();
 }

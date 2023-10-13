@@ -15,6 +15,6 @@ public interface NewsController<T> {
 
         T updateNews(String id, String title, String content, String authorId) throws NotNewDataToUpdate, NotExistThisId;
 
-        Long deleteNews(String Id) throws NotExistThisId;
+        Boolean deleteNews(String Id) throws NotExistThisId;
     }
 
