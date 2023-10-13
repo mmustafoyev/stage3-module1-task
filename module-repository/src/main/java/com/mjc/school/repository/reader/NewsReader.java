@@ -1,7 +1,6 @@
 package com.mjc.school.repository.reader;
 
-import com.mjc.school.exception.CreatingNews;
-import com.mjc.school.repository.model.Author;
+import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.NewsModel;
 
 import java.io.BufferedReader;
@@ -30,7 +29,7 @@ public class NewsReader {
 
         BufferedReader in = null;
         InputStreamReader isr = null;
-        List<Author> listOfAuthors;
+        List<AuthorModel> listOfAuthors;
         try {
             isr = new InputStreamReader(Files.newInputStream(new File("module-repository/src/main/resources/news.txt").toPath()));
             in = new BufferedReader(isr);
@@ -57,7 +56,7 @@ public class NewsReader {
         String line;
         BufferedReader in = null;
         InputStreamReader isr = null;
-        List<Author> listOfAuthors;
+        List<AuthorModel> listOfAuthors;
         try{
             isr = new InputStreamReader(Files.newInputStream(new File("module-repository/src/main/resources/context.txt").toPath()));
             in = new BufferedReader(isr);

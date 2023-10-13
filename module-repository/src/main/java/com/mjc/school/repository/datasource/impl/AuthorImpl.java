@@ -3,16 +3,16 @@ package com.mjc.school.repository.datasource.impl;
 import com.mjc.school.exception.DoubleAdding;
 import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.repository.datasource.DataSource;
-import com.mjc.school.repository.model.Author;
+import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.reader.AuthorReader;
 
 import java.util.List;
 
-public class AuthorImpl implements DataSource<Author> {
+public class AuthorImpl implements DataSource<AuthorModel> {
     private final AuthorReader getAuthor = new AuthorReader();
 
     @Override
-    public Object create(Author data) throws DoubleAdding {
+    public AuthorModel create(AuthorModel data) throws DoubleAdding {
         if(readAll().contains(data)){
             throw new DoubleAdding("This author has");
         }
@@ -22,7 +22,7 @@ public class AuthorImpl implements DataSource<Author> {
     }
 
     @Override
-    public Object readById(Long id) throws NotExistThisId {
+    public AuthorModel readById(Long id) throws NotExistThisId {
         if(readAll().stream().anyMatch(author -> author.getId() != id))
             throw new NotExistThisId("not found id in author");
         return readAll().
@@ -34,12 +34,12 @@ public class AuthorImpl implements DataSource<Author> {
 
 
     @Override
-    public List<Author> readAll() {
+    public List<AuthorModel> readAll() {
         return getAuthor.getAuthors();
     }
 
     @Override
-    public Object update(Author data) throws NotExistThisId {
+    public AuthorModel update(AuthorModel data) throws NotExistThisId {
         if(getAuthor.getAuthors().stream().anyMatch(author -> author.getId() == data.getId()))
             throw new NotExistThisId("This id is not found");
         getAuthor.getAuthors().stream().
@@ -47,7 +47,7 @@ public class AuthorImpl implements DataSource<Author> {
                 forEach(author -> {
                     author.setName(data.getName());
                 });
-        Author auth =  getAuthor.getAuthors().get((int)data.getId());
+        AuthorModel auth =  getAuthor.getAuthors().get((int)data.getId());
         return auth;
     }
 
@@ -57,7 +57,7 @@ public class AuthorImpl implements DataSource<Author> {
     public Boolean delete(Long id) throws NotExistThisId {
         if(getAuthor.getAuthors().stream().anyMatch(author -> author.getId() == id))
             throw new NotExistThisId("This id is not found");
-        List<Author> authors = getAuthor.getAuthors();
+        List<AuthorModel> authors = getAuthor.getAuthors();
         int idI = Math.toIntExact(id);
         return authors.remove(authors.get(idI));
     }

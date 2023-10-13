@@ -5,22 +5,14 @@ import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.exception.NotNewDataToUpdate;
 import com.mjc.school.repository.datasource.DataSource;
 import com.mjc.school.repository.model.NewsModel;
-import com.mjc.school.repository.reader.AuthorReader;
 import com.mjc.school.repository.reader.NewsReader;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class NewsRepository implements DataSource<NewsModel> {
-    private final DataSource dataSource;
+public class NewsImpl implements DataSource<NewsModel> {
 
     private NewsReader reader = new NewsReader();
-
-    public NewsRepository(DataSource<NewsModel> dataSource) {
-        this.dataSource = dataSource;
-    }
-
-
     @Override
     public NewsModel create(NewsModel data) throws DoubleAdding {
         if(readAll().contains(data)){
@@ -42,10 +34,12 @@ public class NewsRepository implements DataSource<NewsModel> {
                 get();
     }
 
+
     @Override
     public List<NewsModel> readAll() {
         return reader.getNews();
     }
+
 
     @Override
     public NewsModel update(NewsModel data) throws NotExistThisId, NotNewDataToUpdate {
@@ -61,6 +55,7 @@ public class NewsRepository implements DataSource<NewsModel> {
         return newsModel;
     }
 
+
     @Override
     public Boolean delete(Long id) throws NotExistThisId {
         if(readAll().stream().anyMatch(news -> news.getId() != id))
@@ -68,6 +63,5 @@ public class NewsRepository implements DataSource<NewsModel> {
         int id_ = Math.toIntExact(id);
         return readAll().remove(readById(id));
     }
-
 
 }

@@ -2,9 +2,6 @@ package com.mjc.school.validate;
 
 import com.mjc.school.dto.NewsDTO;
 import com.mjc.school.exception.InvalidNewsDataException;
-import com.mjc.school.repository.model.Author;
-import com.mjc.school.repository.model.NewsModel;
-import com.mjc.school.repository.reader.AuthorReader;
 
 public class Validator{
     public boolean validator(NewsDTO newsDTO) {

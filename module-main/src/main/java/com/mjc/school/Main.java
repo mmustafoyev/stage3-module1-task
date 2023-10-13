@@ -6,11 +6,7 @@ import com.mjc.school.controller.NewsControllerImpl;
 import com.mjc.school.dto.NewsDTO;
 import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.exception.NotNewDataToUpdate;
-import com.mjc.school.repository.model.Author;
-import com.mjc.school.service.NewsService;
-import com.mjc.school.service.NewsServiceImpl;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
