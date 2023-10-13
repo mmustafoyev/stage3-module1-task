@@ -37,7 +37,7 @@ public class NewsControllerImpl implements NewsController<NewsDto> {
     }
 
     @Override
-    public Boolean deleteNews(String id) throws NotExistThisId {
-        return service.deleteNews(id);
+    public Long deleteNews(String id) throws NotExistThisId {
+        return service.deleteNews(String.valueOf(Long.valueOf(id)));
     }
 }
