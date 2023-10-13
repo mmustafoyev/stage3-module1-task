@@ -11,13 +11,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class NewsRepository implements DataSource<NewsModel> {
-    private final DataSource dataSource;
+    private  DataSource dataSource;
     private NewsReader reader = new NewsReader();
-    private DataSource data = new NewsRepository();
 
 
     public NewsRepository() {
-        this.dataSource = data;
+
     }
 
 
