@@ -8,6 +8,7 @@ import com.mjc.school.exception.NotNewDataToUpdate;
 import com.mjc.school.repository.datasource.DataSource;
 import com.mjc.school.repository.datasource.impl.AuthorImpl;
 import com.mjc.school.repository.datasource.impl.NewsImpl;
+import com.mjc.school.repository.datasource.impl.NewsRepository;
 import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.service.NewsService;
 import com.mjc.school.validate.Validator;
@@ -18,6 +19,7 @@ import java.util.List;
 public class NewsServiceImpl implements NewsService {
 //    private final NewsMapper newsMapper = NewsMapper.INSTANCE;
     private final DataSource dataSource1 = new AuthorImpl();
+    private DataSource dataSource = new NewsRepository(dataSource1);
 
     private  DataSource dataSource2 = new NewsImpl();
     Validator validator = new Validator();
@@ -29,7 +31,7 @@ public class NewsServiceImpl implements NewsService {
 //    }
 
     @Override
-    public NewsDto createNews(String title, String content, String authorId) throws NotExistThisId {
+    public Long createNews(String title, String content, String authorId) throws NotExistThisId {
         NewsDto newsDTO = new NewsDto();
         newsDTO.setTitle(title);
         newsDTO.setContent(content);
@@ -43,7 +45,7 @@ public class NewsServiceImpl implements NewsService {
         } catch (DoubleAdding e) {
             throw new RuntimeException(e);
         }
-        return newsDTO;
+        return newsDTO.getId();
     }
 
     @Override
