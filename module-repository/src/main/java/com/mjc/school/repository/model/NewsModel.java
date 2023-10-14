@@ -4,7 +4,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
+@ToString
 public class NewsModel {
     private Long id;
     private String title;
@@ -16,6 +16,18 @@ public class NewsModel {
     public NewsModel(Long id, String title) {
         this.id = id;
         this.title = title;
+        this.createdDate = LocalDateTime.now();
+        this.lastUpdatedDate = this.createdDate;
+    }
+    public NewsModel(Long id, String title, String content) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.createdDate = LocalDateTime.now();
+        this.lastUpdatedDate = this.createdDate;
+    }
+    public NewsModel(Long id) {
+        this.id = id;
         this.createdDate = LocalDateTime.now();
         this.lastUpdatedDate = this.createdDate;
     }
@@ -60,5 +72,9 @@ public class NewsModel {
 
     public Long getId() {
         return id;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 }

@@ -1,6 +1,6 @@
-package com.mjc.school.repository.reader;
+package com.mjc.school.repository.dataSource.read;
 
-import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.Author;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -8,17 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AuthorReader {
-    private static AuthorReader INSTANCE;
+    public static AuthorReader INSTANCE;
 
-    public static AuthorReader getInstance() {
+    private static AuthorReader getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new AuthorReader();
         }
         return INSTANCE;
     }
-    private List<AuthorModel> listOfAuthors = new ArrayList<>();
+    private List<Author> listOfAuthors = new ArrayList<>();
 
-    public List<AuthorModel> getAuthors() {
+    public List<Author> getAuthors() {
         return listOfAuthors;
     }
     public void readAuthorsFromFile() throws IOException {
@@ -30,7 +30,7 @@ public class AuthorReader {
             String line;
             Long id = 1l;
             while ((line = in.readLine()) != null){
-                AuthorModel author = new AuthorModel(line, id);
+                Author author = new Author(line, id);
                 listOfAuthors.add(author);
                 id++;
             }

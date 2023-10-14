@@ -1,10 +1,13 @@
 package com.mjc.school.repository.model;
 
-public class AuthorModel {
+import lombok.ToString;
+
+@ToString
+public class Author {
     private long id;
     private String name;
 
-    public AuthorModel(String name, Long id) {
+    public Author(String name, Long id) {
         this.name = name;
         this.id = id;
     }
@@ -27,7 +30,7 @@ public class AuthorModel {
 
     @Override
     public String toString() {
-        return "AuthorModel{" +
+        return "Author{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

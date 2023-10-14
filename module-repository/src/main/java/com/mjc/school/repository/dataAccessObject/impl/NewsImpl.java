@@ -1,28 +1,22 @@
-package com.mjc.school.repository.datasource.impl;
+package com.mjc.school.repository.dataAccessObject.impl;
 
 import com.mjc.school.exception.DoubleAdding;
 import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.exception.NotNewDataToUpdate;
-import com.mjc.school.repository.datasource.DataSource;
+import com.mjc.school.repository.dataSource.DataSource;
+import com.mjc.school.repository.dataSource.read.NewsRepository;
 import com.mjc.school.repository.model.NewsModel;
-import com.mjc.school.repository.reader.AuthorReader;
-import com.mjc.school.repository.reader.NewsReader;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class NewsRepository implements DataSource<NewsModel> {
-    private final DataSource dataSource;
+public class NewsImpl implements Dao<NewsModel> {
 
-    private NewsReader reader = new NewsReader();
-
-    public NewsRepository(DataSource<NewsModel> dataSource) {
-        this.dataSource = dataSource;
-    }
-
+    private final DataSource dataSource = new NewsRepository();
 
     @Override
-    public NewsModel create(NewsModel data) throws DoubleAdding {
+    public NewsModel create(NewsModel data) throws DoubleAdding, IOException {
         if(readAll().contains(data)){
             throw new DoubleAdding("there is news model");
         }
@@ -32,7 +26,7 @@ public class NewsRepository implements DataSource<NewsModel> {
     }
 
     @Override
-    public NewsModel readById(Long id) throws NotExistThisId {
+    public NewsModel readById(Long id) throws NotExistThisId, IOException {
         if(readAll().stream().anyMatch(news -> news.getId() != id))
             throw new NotExistThisId("not found id in news");
         return readAll().
@@ -43,12 +37,12 @@ public class NewsRepository implements DataSource<NewsModel> {
     }
 
     @Override
-    public List<NewsModel> readAll() {
-        return reader.getNews();
+    public List<NewsModel> readAll() throws IOException {
+        return dataSource.getNewsList();
     }
 
     @Override
-    public NewsModel update(NewsModel data) throws NotExistThisId, NotNewDataToUpdate {
+    public NewsModel update(NewsModel data) throws NotExistThisId, NotNewDataToUpdate, IOException {
         if(readAll().contains(data)) {
             throw new NotNewDataToUpdate("This news not new to update");
         }
@@ -62,7 +56,7 @@ public class NewsRepository implements DataSource<NewsModel> {
     }
 
     @Override
-    public Boolean delete(Long id) throws NotExistThisId {
+    public Boolean delete(Long id) throws NotExistThisId, IOException {
         if(readAll().stream().anyMatch(news -> news.getId() != id))
             throw new NotExistThisId("not found id in news");
         int id_ = Math.toIntExact(id);

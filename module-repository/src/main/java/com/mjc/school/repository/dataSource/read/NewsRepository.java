@@ -1,6 +1,7 @@
-package com.mjc.school.repository.reader;
+package com.mjc.school.repository.dataSource.read;
 
-import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.dataSource.DataSource;
+import com.mjc.school.repository.model.Author;
 import com.mjc.school.repository.model.NewsModel;
 
 import java.io.BufferedReader;
@@ -10,26 +11,20 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-public class NewsReader {
+public class NewsRepository implements DataSource {
     private final List<NewsModel> data = new ArrayList<>();
-    private static NewsReader INSTANCE;
 
-    public static NewsReader getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new NewsReader();
-        }
-        return INSTANCE;
-    }
+    private AuthorReader author = new AuthorReader();
 
     public List<NewsModel> getNews() {
         return data;
     }
 
-    public void getTitles() throws IOException {
+    public void readByTitles() throws IOException {
 
         BufferedReader in = null;
         InputStreamReader isr = null;
-        List<AuthorModel> listOfAuthors;
+        List<Author> listOfAuthors;
         try {
             isr = new InputStreamReader(Files.newInputStream(new File("module-repository/src/main/resources/news.txt").toPath()));
             in = new BufferedReader(isr);
@@ -56,7 +51,7 @@ public class NewsReader {
         String line;
         BufferedReader in = null;
         InputStreamReader isr = null;
-        List<AuthorModel> listOfAuthors;
+        List<Author> listOfAuthors;
         try{
             isr = new InputStreamReader(Files.newInputStream(new File("module-repository/src/main/resources/context.txt").toPath()));
             in = new BufferedReader(isr);
@@ -77,4 +72,22 @@ public class NewsReader {
         }
     }
 
+    @Override
+    public List<NewsModel> getNewsList() throws IOException {
+        return readAll();
+    }
+
+    @Override
+    public List<NewsModel> readAll() throws IOException {
+        readByTitles();
+        readByContext();
+        author.readAuthorsFromFile();
+        return data;
+    }
+
+    @Override
+    public List<Author> getAuthorsList() throws IOException {
+        author.readAuthorsFromFile();
+        return author.getAuthors();
+    }
 }

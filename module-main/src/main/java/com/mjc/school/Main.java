@@ -7,10 +7,11 @@ import com.mjc.school.dto.NewsDto;
 import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.exception.NotNewDataToUpdate;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws NotExistThisId, NotNewDataToUpdate {
+    public static void main(String[] args) throws NotExistThisId, NotNewDataToUpdate, IOException {
         Scanner sc = new Scanner(System.in);
         NewsController<NewsDto> controller = new NewsControllerImpl();
         boolean status = true;

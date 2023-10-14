@@ -5,11 +5,9 @@ import com.mjc.school.exception.InvalidNewsDataException;
 import com.mjc.school.service.NewsService;
 import com.mjc.school.service.impl.NewsServiceImpl;
 
-public class Validator{
-    NewsService a = new NewsServiceImpl();
+public class NewsValidator {
     public boolean validator(NewsDto newsDTO) {
         try{
-
             // Validate title length
             if (newsDTO.getTitle().length() < 5 || newsDTO.getTitle().length() > 30) {
                 throw new InvalidNewsDataException("Title length must be between 5 and 30 characters.");

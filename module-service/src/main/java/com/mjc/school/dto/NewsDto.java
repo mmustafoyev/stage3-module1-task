@@ -12,7 +12,6 @@ public class NewsDto {
     private LocalDateTime createDate;
     private LocalDateTime lastUpdateDate;
     private Long authorId;
-    private String authorName;
 
     public NewsDto() {
     }

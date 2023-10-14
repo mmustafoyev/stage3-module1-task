@@ -4,88 +4,68 @@ import com.mjc.school.dto.NewsDto;
 import com.mjc.school.exception.DoubleAdding;
 import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.exception.NotNewDataToUpdate;
-//import com.mjc.school.mapping.NewsMapper;
-import com.mjc.school.repository.datasource.DataSource;
-import com.mjc.school.repository.datasource.impl.AuthorImpl;
-import com.mjc.school.repository.datasource.impl.NewsImpl;
-import com.mjc.school.repository.datasource.impl.NewsRepository;
-import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.mapper.NewsMapper;
+import com.mjc.school.repository.dataSource.DataSource;
+import com.mjc.school.repository.dataAccessObject.impl.NewsImpl;
+import com.mjc.school.repository.dataSource.read.NewsRepository;
+import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.NewsService;
-import com.mjc.school.validate.Validator;
+import com.mjc.school.validate.NewsValidator;
 
-import java.time.LocalDateTime;
+import java.io.IOException;
 import java.util.List;
 
 public class NewsServiceImpl implements NewsService {
-//    private final NewsMapper newsMapper = NewsMapper.INSTANCE;
-    private final DataSource dataSource1 = new AuthorImpl();
-    private DataSource dataSource = new NewsRepository(dataSource1);
-
-    private  DataSource dataSource2 = new NewsImpl();
-    Validator validator = new Validator();
-
-
-//    // Example method for mapping NewsModel to NewsDto
-//    public NewsDto mapNewsToDTO(NewsModel newsModel, AuthorModel author) {
-//        return newsMapper.newsToNewsDTO(newsModel, author);
-//    }
+    private final DataSource dataSource = new NewsRepository();
+    NewsValidator validator = new NewsValidator();
+    NewsImpl carry = new NewsImpl();
 
     @Override
-    public NewsDto createNews(String title, String content, String authorId) throws NotExistThisId {
-        NewsDto newsDto = new NewsDto();
-        newsDto.setTitle(title);
-        newsDto.setContent(content);
-        newsDto.setAuthorId(Long.valueOf(authorId));
-        newsDto.setCreateDate(LocalDateTime.now());
-        AuthorModel author = (AuthorModel) dataSource1.readById(Long.parseLong(authorId));
-        newsDto.setAuthorName(author.getName());
-        validator.validator(newsDto);
+    public NewsDto createNews(String title, String content, String authorId) throws NotExistThisId, IOException {
+        NewsModel newsDto = new NewsModel(Long.valueOf(authorId), title, content);
+        NewsDto dto = NewsMapper.INSTANCE.toDTO(newsDto);
+        validator.validator(dto);
         try {
-            dataSource2.create(newsDto);
+            carry.create(newsDto);
         } catch (DoubleAdding e) {
             throw new RuntimeException(e);
         }
-        return newsDto;
+        return dto;
     }
 
     @Override
-    public List<NewsDto> readAllNews() {
-        return dataSource2.readAll();
+    public List<NewsDto> readAllNews() throws IOException {
+        return dataSource.readAll();
     }
 
     @Override
     public Long readByIdNews(String id){
         Long idl = Long.valueOf(id);
         try {
-            dataSource2.readById(idl);
+            carry.readById(idl);
             return idl;
-        } catch (NotExistThisId e) {
+        } catch (NotExistThisId | IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public NewsDto updateNews(String id, String title, String content, String authorId) throws NotExistThisId, NotNewDataToUpdate {
-        NewsDto newsDto = new NewsDto();
+    public NewsDto updateNews(String id, String title, String content, String authorId) throws NotExistThisId, NotNewDataToUpdate, IOException {
+        NewsModel newsDto = new NewsModel(Long.valueOf(authorId));
         newsDto.setTitle(title);
         newsDto.setContent(content);
-        newsDto.setAuthorId(Long.valueOf(authorId));
-        newsDto.setId(Long.parseLong(id));
-        newsDto.setCreateDate(readAllNews().get(Integer.parseInt(id)).getCreateDate());
-        newsDto.setLastUpdateDate(LocalDateTime.now());
-        AuthorModel author = (AuthorModel) dataSource1.readById(Long.parseLong(authorId));
-        newsDto.setAuthorName(author.getName());
-        dataSource2.update(newsDto);
-        return newsDto;
+        carry.update(newsDto);
+        NewsDto dto = NewsMapper.INSTANCE.toDTO(newsDto);
+        return dto;
     }
 
     @Override
-    public Boolean deleteNews(String id) throws NotExistThisId {
-        return dataSource2.delete(Long.parseLong(id));
+    public Boolean deleteNews(String id) throws NotExistThisId, IOException {
+        return carry.delete(Long.parseLong(id));
     }
 
     @Override
-    public List getAllAuthors() {
-        return dataSource1.readAll();
+    public List getAllAuthors() throws IOException {
+        return dataSource.readAll();
     }
 }
