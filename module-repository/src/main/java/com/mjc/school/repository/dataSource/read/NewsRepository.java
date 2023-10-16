@@ -20,7 +20,7 @@ public class NewsRepository implements DataSource {
         return data;
     }
 
-    public void readByTitles() throws IOException {
+    public List<NewsModel> readByTitles() throws IOException {
 
         BufferedReader in = null;
         InputStreamReader isr = null;
@@ -45,8 +45,9 @@ public class NewsRepository implements DataSource {
             if(isr != null)
                 in.close();
         }
+        return data;
     }
-    private void readByContext() throws IOException {
+    private List<NewsModel> readByContext() throws IOException {
         int index = 0;
         String line;
         BufferedReader in = null;
@@ -70,6 +71,7 @@ public class NewsRepository implements DataSource {
             if(isr != null)
                 isr.close();
         }
+        return data;
     }
 
     @Override
