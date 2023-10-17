@@ -6,7 +6,7 @@ import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.exception.NotNewDataToUpdate;
 import com.mjc.school.mapper.NewsMapper;
 import com.mjc.school.repository.DataAccess.impl.NewsRepositoryImpl;
-import com.mjc.school.repository.dataSource.NewsRepository;
+import com.mjc.school.repository.dataSource.Repository;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.validate.NewsServiceValidator;
 
@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsServiceImpl {
-    private final NewsRepository repository;
+    private final Repository repository;
     private final NewsServiceValidator newsValidator;
     private final NewsRepositoryImpl carry;
 
 
     public NewsServiceImpl() {
-        repository = new NewsRepository();
+        repository = new Repository();
         newsValidator = new NewsServiceValidator();
         carry = new NewsRepositoryImpl();
     }
@@ -45,13 +45,14 @@ public class NewsServiceImpl {
         repository.readAll().stream().forEach(newsDto-> dto.add(NewsMapper.INSTANCE.toDTO(newsDto)));
         return dto;
     }
-    public NewsDto readByIdNews(String id){
+    public Long readByIdNews(String id){
         Long idl = Long.valueOf(id);
         try {
-            return NewsMapper.INSTANCE.toDTO(carry.readById(idl));
+             NewsMapper.INSTANCE.toDTO(carry.readById(idl));
         } catch (NotExistThisId | IOException e) {
             throw new RuntimeException(e);
         }
+        return idl;
     }
 
 
@@ -63,8 +64,8 @@ public class NewsServiceImpl {
     }
 
 
-    public Long deleteNews(String id) throws NotExistThisId, IOException {
-        return Long.valueOf(id);
+    public Boolean deleteNews(String id) throws NotExistThisId, IOException {
+        return carry.delete(Long.valueOf(id));
     }
 
 

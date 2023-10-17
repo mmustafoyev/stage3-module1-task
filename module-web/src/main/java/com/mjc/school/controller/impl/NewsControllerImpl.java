@@ -30,7 +30,7 @@ public class NewsControllerImpl {
     }
 
 
-    public NewsDto getNewsById(String id) {
+    public Long getNewsById(String id) {
         return service.readByIdNews(id);
     }
 
