@@ -9,6 +9,7 @@ import com.mjc.school.service.impl.NewsServiceImpl;
 import com.mjc.school.validate.NewsValidator;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class NewsControllerImpl implements NewsController<NewsDto> {
@@ -18,7 +19,11 @@ public class NewsControllerImpl implements NewsController<NewsDto> {
     public NewsDto createNews(String title, String content, String authorId) throws NotExistThisId, IOException {
         NewsValidator validator = new NewsValidator();
         NewsDto newsDTO = service.createNews(title,content, authorId);
+        newsDTO.setCreateDate(LocalDateTime.now());
+        newsDTO.setLastUpdateDate(LocalDateTime.now());
+        newsDTO.setId(getAllNews().size() + 1);
         validator.validator(newsDTO);
+
         return newsDTO;
     }
 

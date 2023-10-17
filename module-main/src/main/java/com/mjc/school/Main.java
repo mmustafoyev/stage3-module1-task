@@ -26,6 +26,7 @@ public class Main {
             int numOfFunction = sc.nextInt();
             switch (numOfFunction) {
                 case 1 -> {
+                    sc.nextLine();
                     System.out.println("Enter news title");
                     String title = sc.nextLine();
                     System.out.println("Enter news content");
@@ -40,32 +41,36 @@ public class Main {
                     System.out.println(controller.getAllNews());
                 }
                 case 3 -> {
-                    System.out.println("Enter author ID: ");
-                    Long authorID = sc.nextLong();
+                    System.out.println("Enter ID: ");
+                    sc.nextLine();
+                    String id = sc.nextLine();
+                    System.out.println(controller.getNewsById(id));
 
                 }
                 case 4 -> {
+                    sc.nextLine();
                     System.out.print("Enter News ID: ");
-                    Long id = sc.nextLong();
+                    String id = sc.nextLine();
                     System.out.print("Enter updated title: ");
                     String title = sc.nextLine();
                     System.out.print("Enter updated content: ");
                     String content = sc.nextLine();
                     System.out.print("Enter updated author ID: ");
-                    Long authorID = sc.nextLong();
-                    NewsDto newsDTO = new NewsDto(title, content, authorID);
+                    String authorID = sc.nextLine();
+                    NewsDto newsDTO = new NewsDto(title, content, Long.getLong(authorID));
                     controller.updateNews(id.toString(), title, content, authorID.toString());
                 }
                 case 5 -> {
+                    sc.nextLine();
                     System.out.print("Enter Deleted News ID: ");
-                    Long id = sc.nextLong();
-                    controller.deleteNews(id.toString());
+                    String id = sc.nextLine();
+                    controller.deleteNews(id);
                 }
                 case 6 -> {
                     status = false;
                 }
                 default ->
-                        System.out.println("Are you crazy.... :)");
+                        System.out.println("finished .... :)");
             }
         }
         sc.close();

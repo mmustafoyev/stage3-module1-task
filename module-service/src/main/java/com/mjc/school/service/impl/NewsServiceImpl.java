@@ -39,11 +39,10 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public Long readByIdNews(String id){
+    public NewsDto readByIdNews(String id){
         Long idl = Long.valueOf(id);
         try {
-            carry.readById(idl);
-            return idl;
+            return NewsMapper.INSTANCE.toDTO(carry.readById(idl));
         } catch (NotExistThisId | IOException e) {
             throw new RuntimeException(e);
         }

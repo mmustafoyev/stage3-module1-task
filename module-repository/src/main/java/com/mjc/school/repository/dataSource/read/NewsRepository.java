@@ -84,6 +84,7 @@ public class NewsRepository implements DataSource {
         readByTitles();
         readByContext();
         author.readAuthorsFromFile();
+        author.getAuthors();
         return data;
     }
 
