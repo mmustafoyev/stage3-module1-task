@@ -1,7 +1,6 @@
 package com.mjc.school;
 
 
-import com.mjc.school.controller.NewsController;
 import com.mjc.school.controller.impl.NewsControllerImpl;
 import com.mjc.school.dto.NewsDto;
 import com.mjc.school.exception.NotExistThisId;
@@ -13,7 +12,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws NotExistThisId, NotNewDataToUpdate, IOException {
         Scanner sc = new Scanner(System.in);
-        NewsController<NewsDto> controller = new NewsControllerImpl();
+        NewsControllerImpl controller = new NewsControllerImpl();
         boolean status = true;
         while (status) {
             System.out.println("click for performing \n" +
@@ -33,7 +32,8 @@ public class Main {
                     String content = sc.nextLine();
                     System.out.println("Enter news authorId");
                     String authorId = sc.nextLine();
-                    NewsDto newsDTO = controller.createNews(title);
+                    NewsDto newsDto = new NewsDto(title, content, Long.parseLong(authorId));
+                    NewsDto newsDTO = controller.createNews(newsDto);
                     newsDTO.setContent(content);
                     newsDTO.setAuthorId(Long.parseLong(authorId));
                     System.out.println(newsDTO);
@@ -60,7 +60,7 @@ public class Main {
                     System.out.print("Enter updated author ID: ");
                     String authorID = sc.nextLine();
                     NewsDto newsDTO = new NewsDto(title, content, Long.getLong(authorID));
-                    controller.updateNews(id.toString(), title, content, authorID.toString());
+                    controller.updateNews(newsDTO);
                 }
                 case 5 -> {
                     sc.nextLine();

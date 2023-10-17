@@ -1,4 +1,4 @@
-package com.mjc.school.repository.dataSource.read;
+package com.mjc.school.repository.dataSource;
 
 import com.mjc.school.repository.model.Author;
 

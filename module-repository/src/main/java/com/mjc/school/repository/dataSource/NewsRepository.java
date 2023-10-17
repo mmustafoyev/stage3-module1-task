@@ -1,6 +1,6 @@
-package com.mjc.school.repository.dataSource.read;
+package com.mjc.school.repository.dataSource;
 
-import com.mjc.school.repository.dataSource.Repository;
+import com.mjc.school.repository.dataSource.AuthorReader;
 import com.mjc.school.repository.model.Author;
 import com.mjc.school.repository.model.NewsModel;
 
@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-public class NewsRepository implements Repository {
+public class NewsRepository {
     private final List<NewsModel> data = new ArrayList<>();
 
     private AuthorReader author = new AuthorReader();
@@ -74,13 +74,13 @@ public class NewsRepository implements Repository {
         return data;
     }
 
-    @Override
+
     public List<NewsModel> getNewsList() throws IOException {
         return readAll();
     }
 
 
-    @Override
+
     public List<NewsModel> readAll() throws IOException {
         readByTitles();
         readByContext();
@@ -89,7 +89,6 @@ public class NewsRepository implements Repository {
         return data;
     }
 
-    @Override
     public List<Author> getAuthorsList() throws IOException {
         author.readAuthorsFromFile();
         return author.getAuthors();
