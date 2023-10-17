@@ -8,14 +8,14 @@ import java.util.List;
 
 public interface NewsService <T> {
 
-    T createNews(String title, String content, String authorId) throws NotExistThisId, IOException;
+    T createNews(String title) throws NotExistThisId, IOException;
 
     List<T> readAllNews() throws IOException;
 
     T readByIdNews(String id);
 
-    T updateNews(String id, String title, String content, String authorId) throws NotExistThisId, NotNewDataToUpdate, IOException;
-    Boolean deleteNews(String Id) throws NotExistThisId, IOException;
+    T updateNews(String id) throws NotExistThisId, NotNewDataToUpdate, IOException;
+    Long deleteNews(String Id) throws NotExistThisId, IOException;
 
     List<String> getAllAuthors() throws IOException;
 }

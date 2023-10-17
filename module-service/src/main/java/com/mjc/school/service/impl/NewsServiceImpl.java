@@ -10,19 +10,20 @@ import com.mjc.school.repository.DataAccess.impl.NewsImpl;
 import com.mjc.school.repository.dataSource.read.NewsRepository;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.NewsService;
-import com.mjc.school.validate.NewsValidator;
+import com.mjc.school.validate.NewsServiceValidatorImpl;
 
 import java.io.IOException;
 import java.util.List;
 
 public class NewsServiceImpl implements NewsService {
     private final DataSource dataSource = new NewsRepository();
-    NewsValidator validator = new NewsValidator();
+    NewsServiceValidatorImpl validator = new NewsServiceValidatorImpl();
     NewsImpl carry = new NewsImpl();
 
     @Override
-    public NewsDto createNews(String title, String content, String authorId) throws NotExistThisId, IOException {
-        NewsModel newsDto = new NewsModel(Long.valueOf(authorId), title, content);
+    public NewsDto createNews(String title) throws NotExistThisId, IOException {
+        Long id = (long)(readAllNews().size() + 1);
+        NewsModel newsDto = new NewsModel(id, title);
         NewsDto dto = NewsMapper.INSTANCE.toDTO(newsDto);
         validator.validator(dto);
         try {
@@ -49,18 +50,16 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public NewsDto updateNews(String id, String title, String content, String authorId) throws NotExistThisId, NotNewDataToUpdate, IOException {
-        NewsModel newsDto = new NewsModel(Long.valueOf(authorId));
-        newsDto.setTitle(title);
-        newsDto.setContent(content);
+    public NewsDto updateNews(String id) throws NotExistThisId, NotNewDataToUpdate, IOException {
+        NewsModel newsDto = new NewsModel(Long.valueOf(id));
         carry.update(newsDto);
         NewsDto dto = NewsMapper.INSTANCE.toDTO(newsDto);
         return dto;
     }
 
     @Override
-    public Boolean deleteNews(String id) throws NotExistThisId, IOException {
-        return carry.delete(Long.parseLong(id));
+    public Long deleteNews(String id) throws NotExistThisId, IOException {
+        return Long.valueOf(id);
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface NewsController<T> {
 
-        T createNews(String title, String content, String authorId) throws NotExistThisId, IOException;
+        T createNews(String title) throws NotExistThisId, IOException;
 
         List<T> getAllNews() throws IOException;
 
@@ -16,6 +16,6 @@ public interface NewsController<T> {
 
         T updateNews(String id, String title, String content, String authorId) throws NotNewDataToUpdate, NotExistThisId, IOException;
 
-        Boolean deleteNews(String Id) throws NotExistThisId, IOException;
+        Long deleteNews(String Id) throws NotExistThisId, IOException;
     }
 

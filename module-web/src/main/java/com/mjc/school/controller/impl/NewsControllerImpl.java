@@ -6,7 +6,7 @@ import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.exception.NotNewDataToUpdate;
 import com.mjc.school.service.NewsService;
 import com.mjc.school.service.impl.NewsServiceImpl;
-import com.mjc.school.validate.NewsValidator;
+import com.mjc.school.validate.NewsServiceValidatorImpl;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -16,9 +16,9 @@ public class NewsControllerImpl implements NewsController<NewsDto> {
     NewsService<NewsDto> service = new NewsServiceImpl();
 
     @Override
-    public NewsDto createNews(String title, String content, String authorId) throws NotExistThisId, IOException {
-        NewsValidator validator = new NewsValidator();
-        NewsDto newsDTO = service.createNews(title,content, authorId);
+    public NewsDto createNews(String title) throws NotExistThisId, IOException {
+        NewsServiceValidatorImpl validator = new NewsServiceValidatorImpl();
+        NewsDto newsDTO = service.createNews(title);
         newsDTO.setCreateDate(LocalDateTime.now());
         newsDTO.setLastUpdateDate(LocalDateTime.now());
         newsDTO.setId(getAllNews().size() + 1);
@@ -39,11 +39,12 @@ public class NewsControllerImpl implements NewsController<NewsDto> {
 
     @Override
     public NewsDto updateNews(String id, String title, String content, String authorId) throws NotNewDataToUpdate, NotExistThisId, IOException {
-        return service.updateNews(id,title, content, authorId);
+        return service.updateNews(id);
     }
 
     @Override
-    public Boolean deleteNews(String id) throws NotExistThisId, IOException {
-        return service.deleteNews(String.valueOf(Long.valueOf(id)));
+    public Long deleteNews(String id) throws NotExistThisId, IOException {
+        service.deleteNews(String.valueOf(Long.valueOf(id)));
+        return Long.valueOf(id);
     }
 }

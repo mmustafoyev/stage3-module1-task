@@ -33,7 +33,9 @@ public class Main {
                     String content = sc.nextLine();
                     System.out.println("Enter news authorId");
                     String authorId = sc.nextLine();
-                    NewsDto newsDTO = controller.createNews(title, content, authorId);
+                    NewsDto newsDTO = controller.createNews(title);
+                    newsDTO.setContent(content);
+                    newsDTO.setAuthorId(Long.parseLong(authorId));
                     System.out.println(newsDTO);
                 }
                 case 2 -> {
