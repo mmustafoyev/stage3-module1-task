@@ -4,7 +4,7 @@ import com.mjc.school.exception.DoubleAdding;
 import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.exception.NotNewDataToUpdate;
 import com.mjc.school.repository.DataAccess.Dao;
-import com.mjc.school.repository.dataSource.DataSource;
+import com.mjc.school.repository.dataSource.Repository;
 import com.mjc.school.repository.dataSource.read.NewsRepository;
 import com.mjc.school.repository.model.NewsModel;
 
@@ -12,9 +12,9 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class NewsImpl implements Dao<NewsModel> {
+public class NewsRepositoryImpl implements Dao<NewsModel> {
 
-    private final DataSource dataSource = new NewsRepository();
+    private final Repository dataSource = new NewsRepository();
 
     @Override
     public NewsModel create(NewsModel data) throws DoubleAdding, IOException {

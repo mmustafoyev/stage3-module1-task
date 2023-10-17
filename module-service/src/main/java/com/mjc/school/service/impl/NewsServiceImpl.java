@@ -5,20 +5,29 @@ import com.mjc.school.exception.DoubleAdding;
 import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.exception.NotNewDataToUpdate;
 import com.mjc.school.mapper.NewsMapper;
-import com.mjc.school.repository.dataSource.DataSource;
-import com.mjc.school.repository.DataAccess.impl.NewsImpl;
+import com.mjc.school.repository.DataAccess.Dao;
+import com.mjc.school.repository.DataAccess.impl.NewsRepositoryImpl;
+import com.mjc.school.repository.dataSource.Repository;
 import com.mjc.school.repository.dataSource.read.NewsRepository;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.NewsService;
 import com.mjc.school.validate.NewsServiceValidatorImpl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewsServiceImpl implements NewsService {
-    private final DataSource dataSource = new NewsRepository();
-    NewsServiceValidatorImpl validator = new NewsServiceValidatorImpl();
-    NewsImpl carry = new NewsImpl();
+    private final Repository<NewsModel> repository;
+    private final NewsServiceValidatorImpl validator;
+    private final Dao<NewsModel> carry;
+
+
+    public NewsServiceImpl() {
+        repository = new NewsRepository();
+        validator = new NewsServiceValidatorImpl();
+        carry = new NewsRepositoryImpl();
+    }
 
     @Override
     public NewsDto createNews(String title) throws NotExistThisId, IOException {
@@ -36,9 +45,10 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public List<NewsDto> readAllNews() throws IOException {
-        return dataSource.readAll();
+        List<NewsDto> dto = new ArrayList<>();
+        repository.readAll().stream().forEach(newsDto-> dto.add(NewsMapper.INSTANCE.toDTO(newsDto)));
+        return dto;
     }
-
     @Override
     public NewsDto readByIdNews(String id){
         Long idl = Long.valueOf(id);
@@ -64,6 +74,6 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public List getAllAuthors() throws IOException {
-        return dataSource.readAll();
+        return repository.getAuthorsList();
     }
 }

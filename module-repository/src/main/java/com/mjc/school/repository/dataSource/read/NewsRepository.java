@@ -1,6 +1,6 @@
 package com.mjc.school.repository.dataSource.read;
 
-import com.mjc.school.repository.dataSource.DataSource;
+import com.mjc.school.repository.dataSource.Repository;
 import com.mjc.school.repository.model.Author;
 import com.mjc.school.repository.model.NewsModel;
 
@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-public class NewsRepository implements DataSource {
+public class NewsRepository implements Repository {
     private final List<NewsModel> data = new ArrayList<>();
 
     private AuthorReader author = new AuthorReader();
@@ -78,6 +78,7 @@ public class NewsRepository implements DataSource {
     public List<NewsModel> getNewsList() throws IOException {
         return readAll();
     }
+
 
     @Override
     public List<NewsModel> readAll() throws IOException {
