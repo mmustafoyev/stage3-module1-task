@@ -5,7 +5,6 @@ import com.mjc.school.exception.DoubleAdding;
 import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.exception.NotNewDataToUpdate;
 import com.mjc.school.mapper.NewsMapper;
-import com.mjc.school.repository.DataAccess.Dao;
 import com.mjc.school.repository.DataAccess.impl.NewsRepositoryImpl;
 import com.mjc.school.repository.dataSource.NewsRepository;
 import com.mjc.school.repository.model.NewsModel;
@@ -18,7 +17,7 @@ import java.util.List;
 public class NewsServiceImpl {
     private final NewsRepository repository;
     private final NewsServiceValidator newsValidator;
-    private final Dao<NewsModel> carry;
+    private final NewsRepositoryImpl carry;
 
 
     public NewsServiceImpl() {

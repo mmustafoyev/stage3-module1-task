@@ -9,37 +9,37 @@ public class NewsModel {
     private Long id;
     private String title;
     private String content;
-    private LocalDateTime createdDate;
-    private LocalDateTime lastUpdatedDate;
+    private LocalDateTime createDate;
+    private LocalDateTime lastUpdateDate;
     private Long authorId;
 
     public NewsModel(Long id, String title) {
         this.id = id;
         this.title = title;
-        this.createdDate = LocalDateTime.now();
-        this.lastUpdatedDate = this.createdDate;
+        this.createDate = LocalDateTime.now();
+        this.lastUpdateDate = this.createDate;
     }
     public NewsModel(Long id, String title, String content) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.createdDate = LocalDateTime.now();
-        this.lastUpdatedDate = this.createdDate;
+        this.createDate = LocalDateTime.now();
+        this.lastUpdateDate = this.createDate;
     }
     public NewsModel(Long id) {
         this.id = id;
-        this.createdDate = LocalDateTime.now();
-        this.lastUpdatedDate = this.createdDate;
+        this.createDate = LocalDateTime.now();
+        this.lastUpdateDate = this.createDate;
     }
-    public String getCreatedDate(){
-        return createdDate.format(DateTimeFormatter.ISO_DATE_TIME);
+    public String getCreateDate(){
+        return createDate.format(DateTimeFormatter.ISO_DATE_TIME);
     }
-    public String getLastUpdatedDate(){
-        return lastUpdatedDate.format(DateTimeFormatter.ISO_DATE_TIME);
+    public String getLastUpdateDate(){
+        return lastUpdateDate.format(DateTimeFormatter.ISO_DATE_TIME);
     }
 
-    public void setLastUpdatedDate(LocalDateTime lastUpdatedDate) {
-        this.lastUpdatedDate = lastUpdatedDate;
+    public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
     }
 
     public String getContent() {
@@ -74,7 +74,7 @@ public class NewsModel {
         return id;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
     }
 }
