@@ -46,7 +46,7 @@ public class Main {
                     System.out.println("Enter ID: ");
                     sc.nextLine();
                     String id = sc.nextLine();
-                    System.out.println(controller.getNewsById(id));
+                    System.out.println(controller.getNewsById(Long.parseLong(id)));
 
                 }
                 case 4 -> {
@@ -66,7 +66,7 @@ public class Main {
                     sc.nextLine();
                     System.out.print("Enter Deleted News ID: ");
                     String id = sc.nextLine();
-                    controller.deleteNews(id);
+                    controller.deleteNews(Long.parseLong(id));
                 }
                 case 6 -> {
                     status = false;

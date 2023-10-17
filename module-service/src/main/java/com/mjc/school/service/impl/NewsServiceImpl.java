@@ -45,14 +45,13 @@ public class NewsServiceImpl {
         repository.readAll().stream().forEach(newsDto-> dto.add(NewsMapper.INSTANCE.toDTO(newsDto)));
         return dto;
     }
-    public Long readByIdNews(String id){
-        Long idl = Long.valueOf(id);
+    public NewsDto readByIdNews(Long id){
         try {
-             NewsMapper.INSTANCE.toDTO(carry.readById(idl));
+            return NewsMapper.INSTANCE.toDTO(carry.readById(id));
         } catch (NotExistThisId | IOException e) {
             throw new RuntimeException(e);
         }
-        return idl;
+
     }
 
 
@@ -64,8 +63,8 @@ public class NewsServiceImpl {
     }
 
 
-    public Boolean deleteNews(String id) throws NotExistThisId, IOException {
-        return carry.delete(Long.valueOf(id));
+    public Boolean deleteNews(Long id) throws NotExistThisId, IOException {
+        return carry.delete(id);
     }
 
 

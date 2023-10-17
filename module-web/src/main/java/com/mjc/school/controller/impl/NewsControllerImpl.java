@@ -30,7 +30,7 @@ public class NewsControllerImpl {
     }
 
 
-    public Long getNewsById(String id) {
+    public NewsDto getNewsById(Long id) {
         return service.readByIdNews(id);
     }
 
@@ -38,8 +38,8 @@ public class NewsControllerImpl {
         return service.updateNews(newsDto);
     }
 
-    public Long deleteNews(String id) throws NotExistThisId, IOException {
-        service.deleteNews(String.valueOf(Long.valueOf(id)));
-        return Long.valueOf(id);
+    public Boolean deleteNews(Long id) throws NotExistThisId, IOException {
+
+        return service.deleteNews(id);
     }
 }
