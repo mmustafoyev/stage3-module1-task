@@ -1,4 +1,4 @@
-package com.mjc.school.repository.dataAccessObject.impl;
+package com.mjc.school.repository.DataAccess;
 
 import com.mjc.school.exception.DoubleAdding;
 import com.mjc.school.exception.NotExistThisId;

@@ -1,8 +1,9 @@
-package com.mjc.school.repository.dataAccessObject.impl;
+package com.mjc.school.repository.DataAccess.impl;
 
 import com.mjc.school.exception.DoubleAdding;
 import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.exception.NotNewDataToUpdate;
+import com.mjc.school.repository.DataAccess.Dao;
 import com.mjc.school.repository.dataSource.DataSource;
 import com.mjc.school.repository.dataSource.read.NewsRepository;
 import com.mjc.school.repository.model.NewsModel;

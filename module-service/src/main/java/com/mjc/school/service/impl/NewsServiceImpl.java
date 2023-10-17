@@ -6,7 +6,7 @@ import com.mjc.school.exception.NotExistThisId;
 import com.mjc.school.exception.NotNewDataToUpdate;
 import com.mjc.school.mapper.NewsMapper;
 import com.mjc.school.repository.dataSource.DataSource;
-import com.mjc.school.repository.dataAccessObject.impl.NewsImpl;
+import com.mjc.school.repository.DataAccess.impl.NewsImpl;
 import com.mjc.school.repository.dataSource.read.NewsRepository;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.NewsService;
