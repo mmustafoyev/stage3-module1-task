@@ -1,6 +1,7 @@
 package com.mjc.school.repository.dataSource;
 
 import com.mjc.school.repository.model.Author;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -29,7 +30,7 @@ public class AuthorReader {
             in = new BufferedReader(isr);
             String line;
             Long id = 1l;
-            while ((line = in.readLine()) != null){
+            while ((line = BoundedLineReader.readLine(in, 5_000_000)) != null){
                 Author author = new Author(line, id);
                 listOfAuthors.add(author);
                 id++;
