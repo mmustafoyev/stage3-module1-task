@@ -2,6 +2,7 @@ package com.mjc.school.repository.dataSource;
 
 import com.mjc.school.repository.model.Author;
 import com.mjc.school.repository.model.NewsModel;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,7 +30,7 @@ public class Repository {
             in = new BufferedReader(isr);
             String line;
             Long id = 0l;
-            while ((line = in.readLine()) != null){
+            while ((line = BoundedLineReader.readLine(in, 5_000_000)) != null){
                 id++;
                 String title = line;
                 NewsModel news = new NewsModel(id,line);
@@ -55,7 +56,7 @@ public class Repository {
         try{
             isr = new InputStreamReader(Files.newInputStream(new File("module-repository/src/main/resources/context.txt").toPath()));
             in = new BufferedReader(isr);
-            while ((line = in.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(in, 5_000_000)) != null) {
                 if (index < data.size()) {
                     data.get(index).setContent(line);
                     index++;
